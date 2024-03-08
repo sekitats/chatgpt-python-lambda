@@ -8,12 +8,12 @@ import json
 
 load_dotenv()
 
-def lambda_handler(event, context):
+json_file = 'chat_history.json'
 
-  json_file = 'chat_history.json'
+with open(json_file, 'w') as f:
+  f.write('[]')
 
-  with open(json_file, 'w') as f:
-    f.write('[]')
+def handler(event, context):
 
   chat = ChatOpenAI(
     openai_api_key=os.getenv("OPENAI_API_KEY"),
@@ -39,7 +39,9 @@ def lambda_handler(event, context):
     memory=memory,
   )
 
-  result = chain.invoke({"content": event.input})
+  print(event["body"]["input"])
+
+  result = chain.invoke({"content": event["body"]["input"]})
 
   return {
     "statusCode": 200,
