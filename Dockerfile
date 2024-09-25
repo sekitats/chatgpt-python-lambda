@@ -5,7 +5,7 @@ COPY requirements.txt  .
 RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
 # AWS ベースイメージには、環境変数「LAMBDA_TASK_ROOT=/var/task」が含まれています。
-COPY app.py chat_history.json .env ${LAMBDA_TASK_ROOT}
+COPY app.py .env ${LAMBDA_TASK_ROOT}
 
 # Dockerイメージ内の実行時のデフォルトコマンドを設定します。
 CMD [ "app.handler" ]
